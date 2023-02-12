@@ -1,0 +1,76 @@
+PROJECT: RP-LAT
+EXP: in_conv-depth-g32-g64
+RESULT_PATH: ./results
+NUM_WORKERS: 2
+GPU: 0
+
+# Network configurations
+NORM_LIST:
+    - in
+CONV_LIST:
+    - conv
+    - depsep_2
+    - group_32
+    - group_64
+NUM_ITER: 20
+NUM_LAYERS: 4
+IMG_SIZE: 224
+BLOCK_WISE: False
+RANDOM_SKIP: True
+CLASSIFIER: resnet18
+
+# Dataset
+DATASET: imagenet
+DATASET_PATH: /shared/public/dataset/ILSVRC2012
+TRAIN_SUBSAMPLE: 0.0390269184267156
+NUM_CLASS: 1000
+
+TRAIN:
+    EPOCHS: 5
+    BATCH_SIZE: 16
+    EVAL_BATCH_SIZE: 32
+    SEED: 1
+    
+    # Optim
+    LR: 1.0e-3
+    B1: 0.5
+    B2: 0.999
+    WEIGHT_DECAY: 1.0e-4
+    LR_DECAY_PERIOD: 1.0
+    LR_DECAY_RATIO: 0.2
+    
+    # Log
+    PRINT_FREQ: 20
+    EVAL_FREQ: 100
+    
+    # attack
+    ATTACK: pgd
+    PGD_STEP: 20
+    EOT_ITER: 10
+    EPS: 0.0313725490196078
+    
+    # Miscellaneous
+    IN_DISTILL: False
+    TEST_SUBSAMPLE: 0.002
+    RESUME_EPOCH: null
+    
+
+TEST:
+    BATCH_SIZE: 256
+    SEED: 1
+    CKPT_PATH: null
+    
+    # Dataset
+    DATASET: cifar10
+    TEST_SUBSAMPLE: 1.0
+    
+    # attack
+    ATTACKS:
+        - pgd
+        - aa
+        - fgsm
+    PGD_STEP: 20
+    EOT_ITER: 10
+    EPS: 0.0313725490196078
+    
+    
